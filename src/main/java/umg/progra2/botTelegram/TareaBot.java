@@ -123,11 +123,8 @@ public class TareaBot extends TelegramLongPollingBot {
             if (message_text.startsWith("/grupal")) {
                 Mensajegrupal(message_text);
             }
-            if (message_text.toLowerCase().equals("/teffy")) {
-                sendPhoto(chat_id, "Hola bonita <3.");
-            }
-            if (message_text.toLowerCase().equals("/teffy")){
-
+            if (message_text.toLowerCase().equals("/foto")) {
+                sendPhoto(chat_id, "Que bonita foto no?");
             }
             if (message_text.toLowerCase().startsWith("/cambio")) {
                 try {
