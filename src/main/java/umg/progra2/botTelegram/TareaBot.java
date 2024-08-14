@@ -126,9 +126,6 @@ public class TareaBot extends TelegramLongPollingBot {
             if (message_text.toLowerCase().equals("/foto")) {
                 sendPhoto(chat_id, "Que bonita foto no?.");
             }
-            if (message_text.toLowerCase().equals("/teffy")){
-
-            }
             if (message_text.toLowerCase().startsWith("/cambio")) {
                 try {
                     String[] partes = message_text.split(" ");
