@@ -3,7 +3,9 @@ package umg.progra2;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import umg.progra2.botTelegram.*;
+import umg.progra2.model.Cuestionario;
 import umg.progra2.model.User;
+import umg.progra2.service.CuestionarioService;
 import umg.progra2.service.UserService;
 
 import java.sql.SQLException;
@@ -60,6 +62,25 @@ public class Main {
 
         try {
             userService.createUser(user);
+            System.out.println("User created successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void InsertarCuestionario(){
+        CuestionarioService cuestionarioService =new CuestionarioService();
+        Cuestionario cuestionario = new Cuestionario();
+
+        // Crear un nuevo usuarioUseruser=newUser();
+        cuestionario.setSeccion("SECCION 4");
+        cuestionario.setPreguntaid(2);
+        cuestionario.setResponse("16");
+        cuestionario.setTelegramid(123456798L);
+
+
+        try {
+            cuestionarioService.crearUsuario(cuestionario);
             System.out.println("User created successfully!");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -164,17 +185,18 @@ public class Main {
     }
 
     public static void main(String[] args){
-        try {
-            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-            botCuestionario bot1 = new botCuestionario();
-//            botPregunton bot1 = new botPregunton();
-            //PokemonBot poke = new PokemonBot();
-            botsApi.registerBot(bot1);
-            System.out.println("El bot1 funciona bien pa");
-        }
-        catch(Exception ex){
-            System.out.println("Error: " + ex.getMessage());
-        }
+//        try {
+//            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+//            botCuestionario bot1 = new botCuestionario();
+////            botPregunton bot1 = new botPregunton();
+//            //PokemonBot poke = new PokemonBot();
+//            botsApi.registerBot(bot1);
+//            System.out.println("El bot1 funciona bien pa");
+//        }
+//        catch(Exception ex){
+//            System.out.println("Error: " + ex.getMessage());
+//        }
+        InsertarCuestionario();
 //        PruebaInsertaUsuario();
 //        PruebaActualizacionUsuario();
 //        PruebaGetnUsuario();

@@ -7,9 +7,12 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import umg.progra2.model.Cuestionario;
 import umg.progra2.model.User;
+import umg.progra2.service.CuestionarioService;
 import umg.progra2.service.UserService;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +65,7 @@ public class botCuestionario extends TelegramLongPollingBot {
                 sendMenu(chatId);
             } else if (seccionActiva.containsKey(chatId)) {
                 manejaCuestionario(chatId, messageText);
+
             }
 
         try {
@@ -149,17 +153,41 @@ public class botCuestionario extends TelegramLongPollingBot {
         if (indicePregunta.get(chatId) == 1 ) {
             int intresponse = Integer.parseInt(response);
             if (intresponse<5){
+                sendText(chatId, "Tu respuesta fue: " + response);
                 sendText(chatId, "Tan pequeño y ya sabes leer ?\nPorfa coloca otra edad 🤗");
                 enviarPregunta(chatId);
             } else if (intresponse>95) {
+                sendText(chatId, "Tu respuesta fue: " + response);
                 sendText(chatId,"Diablos abuelo! Sabes ocupar un celular?\nPorfa coloca otra edad 🤗");
+                enviarPregunta(chatId);
+            }else {
+                siguientepregunta(chatId,response,index);
             }
-
+            } else{
+            siguientepregunta(chatId,response,index);
         }
+    }
+    private void enviarRespuesta(String seccion, String response,Long telegramid,Integer preguntaid) {
+        CuestionarioService cuestionarioService =new CuestionarioService();
+        Cuestionario cuestionario = new Cuestionario();
 
+        // Crear un nuevo usuarioUseruser=newUser();
+        cuestionario.setSeccion(seccion);
+        cuestionario.setPreguntaid(preguntaid);
+        cuestionario.setResponse(response);
+        cuestionario.setTelegramid(telegramid);
+
+
+        try {
+            cuestionarioService.crearUsuario(cuestionario);
+            System.out.println("User created successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private void siguientepregunta(long chatId,String response,int index) {
         sendText(chatId, "Tu respuesta fue: " + response);
         indicePregunta.put(chatId, index + 1);
-
         enviarPregunta(chatId);
     }
 
