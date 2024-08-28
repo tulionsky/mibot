@@ -185,18 +185,18 @@ public class Main {
     }
 
     public static void main(String[] args){
-//        try {
-//            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-//            botCuestionario bot1 = new botCuestionario();
-////            botPregunton bot1 = new botPregunton();
-//            //PokemonBot poke = new PokemonBot();
-//            botsApi.registerBot(bot1);
-//            System.out.println("El bot1 funciona bien pa");
-//        }
-//        catch(Exception ex){
-//            System.out.println("Error: " + ex.getMessage());
-//        }
-        InsertarCuestionario();
+        try {
+            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+            botCuestionario bot1 = new botCuestionario();
+//            botPregunton bot1 = new botPregunton();
+            //PokemonBot poke = new PokemonBot();
+            botsApi.registerBot(bot1);
+            System.out.println("El bot1 funciona bien pa");
+        }
+        catch(Exception ex){
+            System.out.println("Error: " + ex.getMessage());
+        }
+//        InsertarCuestionario();
 //        PruebaInsertaUsuario();
 //        PruebaActualizacionUsuario();
 //        PruebaGetnUsuario();

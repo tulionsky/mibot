@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class CuestionarioDao {
 
     public void insertUser(Cuestionario cuestionario) throws SQLException {
-        String query = "INSERT INTO tb_respuestas(seccion,telegram_id,pregunta_id,respuesta_texto) VALUES (?,?,?,?)";
+        String query = "INSERT INTO tb_respuestas(seccion,telegram_id,respuesta_texto,pregunta_id) VALUES (?,?,?,?)";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, cuestionario.getSeccion());

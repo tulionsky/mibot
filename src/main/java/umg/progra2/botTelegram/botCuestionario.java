@@ -51,20 +51,25 @@ public class botCuestionario extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String messageText = update.getMessage().getText();
             Message message = update.getMessage();
-            long chatId = update.getMessage().getChatId();
             //obtener el nombre y apellido del usuario en una variable
             String userFirstName = update.getMessage().getFrom().getFirstName();
             String userLastName = update.getMessage().getFrom().getLastName();
             String nickName = update.getMessage().getFrom().getUserName();
             long chat_id = update.getMessage().getChatId();
-            String mensaje_Texto = update.getMessage().getText();
-            if (!messageText.equals("/menu") && !seccionActiva.containsKey(chatId)){
-                sendText(chat_id, "Hola " + formatUserInfo(userFirstName, userLastName) + ", Envia /menu para iniciar el cuestionario 😉👍");}
 
             if (messageText.equals("/menu")) {
-                sendMenu(chatId);
-            } else if (seccionActiva.containsKey(chatId)) {
-                manejaCuestionario(chatId, messageText);
+                sendMenu(chat_id);
+            } else if (seccionActiva.containsKey(chat_id)) {
+                manejaCuestionario(chat_id, messageText);
+
+            }
+            if (seccionActiva.containsKey(chat_id)) {
+                try {
+                    enviarRespuesta(seccionActiva.get(chat_id),indicePregunta.get(chat_id), messageText, chat_id);
+                    System.out.println("todo funca bien padre👍");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
 
@@ -76,12 +81,13 @@ public class botCuestionario extends TelegramLongPollingBot {
             if (usuarioConectado == null && state.isEmpty()) {
                 sendText(chat_id, "Hola " + formatUserInfo(userFirstName, userLastName) + ", no tienes un usuario registrado en el sistema. Por favor ingresa tu correo electrónico:");
                 estadoConversacion.put(chat_id, "ESPERANDO_CORREO");
-                return;
-            }
+                return;}
+            else if (!messageText.equals("/menu") && !seccionActiva.containsKey(chat_id)){
+                sendText(chat_id, "Hola " + formatUserInfo(userFirstName, userLastName) + ", Envia /menu para iniciar el cuestionario 😉👍");}
 
             // Manejo del estado ESPERANDO_CORREO
             if (state.equals("ESPERANDO_CORREO")) {
-                processEmailInput(chat_id, mensaje_Texto);
+                processEmailInput(chat_id, messageText);
                 return;
             }
         }catch (Exception e){
@@ -167,7 +173,8 @@ public class botCuestionario extends TelegramLongPollingBot {
             siguientepregunta(chatId,response,index);
         }
     }
-    private void enviarRespuesta(String seccion, String response,Long telegramid,Integer preguntaid) {
+
+    private void enviarRespuesta(String seccion,Integer preguntaid, String response,Long telegramid) {
         CuestionarioService cuestionarioService =new CuestionarioService();
         Cuestionario cuestionario = new Cuestionario();
 
