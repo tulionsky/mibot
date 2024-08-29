@@ -39,4 +39,14 @@ public class Cuestionario {
     private String response;
     private Integer preguntaid;
 
+    public String getNombreid() {
+        return nombreid;
+    }
+
+    public void setNombreid(String nombreid) {
+        this.nombreid = nombreid;
+    }
+
+    private String nombreid;
+
 }

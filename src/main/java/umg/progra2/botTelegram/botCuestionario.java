@@ -26,6 +26,7 @@ public class botCuestionario extends TelegramLongPollingBot {
     private final Map<Long, Integer> indicePregunta = new HashMap<>();
     private final Map<Long, String> seccionActiva = new HashMap<>();
     private final Map<String, String[]> preguntas = new HashMap<>();
+    Boolean enviar = false;
 
     public botCuestionario() {
         // Inicializa los cuestionarios con las preguntas.
@@ -57,22 +58,6 @@ public class botCuestionario extends TelegramLongPollingBot {
             String nickName = update.getMessage().getFrom().getUserName();
             long chat_id = update.getMessage().getChatId();
 
-            if (messageText.equals("/menu")) {
-                sendMenu(chat_id);
-            } else if (seccionActiva.containsKey(chat_id)) {
-                manejaCuestionario(chat_id, messageText);
-
-            }
-            if (seccionActiva.containsKey(chat_id)) {
-                try {
-                    enviarRespuesta(seccionActiva.get(chat_id),indicePregunta.get(chat_id), messageText, chat_id);
-                    System.out.println("todo funca bien padre👍");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-
         try {
             String state = estadoConversacion.getOrDefault(chat_id, "");
             usuarioConectado = userService.getUserByTelegramId(chat_id);
@@ -84,6 +69,12 @@ public class botCuestionario extends TelegramLongPollingBot {
                 return;}
             else if (!messageText.equals("/menu") && !seccionActiva.containsKey(chat_id)){
                 sendText(chat_id, "Hola " + formatUserInfo(userFirstName, userLastName) + ", Envia /menu para iniciar el cuestionario 😉👍");}
+
+            if (messageText.equals("/menu")) {
+                sendMenu(chat_id);
+            } else if (seccionActiva.containsKey(chat_id)) {
+                manejaCuestionario(chat_id, messageText,formatUserInfo(userFirstName,userLastName));
+            }
 
             // Manejo del estado ESPERANDO_CORREO
             if (state.equals("ESPERANDO_CORREO")) {
@@ -153,7 +144,7 @@ public class botCuestionario extends TelegramLongPollingBot {
         }
     }
 
-    private void manejaCuestionario(long chatId, String response) {
+    private void manejaCuestionario(long chatId, String response,String nombre) {
         String section = seccionActiva.get(chatId);
         int index = indicePregunta.get(chatId);
         if (indicePregunta.get(chatId) == 1 ) {
@@ -167,14 +158,16 @@ public class botCuestionario extends TelegramLongPollingBot {
                 sendText(chatId,"Diablos abuelo! Sabes ocupar un celular?\nPorfa coloca otra edad 🤗");
                 enviarPregunta(chatId);
             }else {
+                enviarRespuesta(section,index,response,chatId,nombre);
                 siguientepregunta(chatId,response,index);
             }
             } else{
+            enviarRespuesta(section,index,response,chatId,nombre);
             siguientepregunta(chatId,response,index);
         }
     }
 
-    private void enviarRespuesta(String seccion,Integer preguntaid, String response,Long telegramid) {
+    private void enviarRespuesta(String seccion,Integer preguntaid, String response,Long telegramid,String nombreid) {
         CuestionarioService cuestionarioService =new CuestionarioService();
         Cuestionario cuestionario = new Cuestionario();
 
@@ -183,6 +176,7 @@ public class botCuestionario extends TelegramLongPollingBot {
         cuestionario.setPreguntaid(preguntaid);
         cuestionario.setResponse(response);
         cuestionario.setTelegramid(telegramid);
+        cuestionario.setNombreid(nombreid);
 
 
         try {
