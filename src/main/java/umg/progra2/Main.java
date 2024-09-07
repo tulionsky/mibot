@@ -3,9 +3,9 @@ package umg.progra2;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import umg.progra2.botTelegram.*;
-import umg.progra2.model.Cuestionario;
+import umg.progra2.model.Quest;
 import umg.progra2.model.User;
-import umg.progra2.service.CuestionarioService;
+import umg.progra2.service.QuestService;
 import umg.progra2.service.UserService;
 
 import java.sql.SQLException;
@@ -69,18 +69,18 @@ public class Main {
     }
 
     private static void InsertarCuestionario(){
-        CuestionarioService cuestionarioService =new CuestionarioService();
-        Cuestionario cuestionario = new Cuestionario();
+        QuestService questService =new QuestService();
+        Quest quest = new Quest();
 
         // Crear un nuevo usuarioUseruser=newUser();
-        cuestionario.setSeccion("SECCION 4");
-        cuestionario.setPreguntaid(2);
-        cuestionario.setResponse("16");
-        cuestionario.setTelegramid(123456798L);
+        quest.setSeccion("SECCION 4");
+        quest.setPreguntaid(2);
+        quest.setResponse("16");
+        quest.setTelegramid(123456798L);
 
 
         try {
-            cuestionarioService.crearUsuario(cuestionario);
+            questService.crearUsuario(quest);
             System.out.println("User created successfully!");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -187,7 +187,8 @@ public class Main {
     public static void main(String[] args){
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-            botCuestionario bot1 = new botCuestionario();
+            BotPreguntonDbDinamico bot1 = new BotPreguntonDbDinamico();
+//            botCuestionario bot1 = new botCuestionario();
 //            botPregunton bot1 = new botPregunton();
             //PokemonBot poke = new PokemonBot();
             botsApi.registerBot(bot1);

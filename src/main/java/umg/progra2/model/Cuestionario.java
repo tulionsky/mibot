@@ -1,52 +1,65 @@
 package umg.progra2.model;
 
+import java.sql.Timestamp;
+
 public class Cuestionario {
+    private int id;
+    private String nombre;
+    private String descripcion;
+    private Timestamp fechaCreacion;
 
-    public String getSeccion() {
-        return seccion;
+    // Constructor por defecto
+    public Cuestionario() {}
+
+    // Constructor con parámetros
+    public Cuestionario(int id, String nombre, String descripcion, Timestamp fechaCreacion) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.fechaCreacion = fechaCreacion;
     }
 
-    public void setSeccion(String seccion) {
-        this.seccion = seccion;
+    // Getters y Setters
+    public int getId() {
+        return id;
     }
 
-    public Long getTelegramid() {
-        return telegramid;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setTelegramid(Long telegramid) {
-        this.telegramid = telegramid;
+    public String getNombre() {
+        return nombre;
     }
 
-    public String getResponse() {
-        return response;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public void setResponse(String response) {
-        this.response = response;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public Integer getPreguntaid() {
-        return preguntaid;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public void setPreguntaid(Integer preguntaid) {
-        this.preguntaid = preguntaid;
+    public Timestamp getFechaCreacion() {
+        return fechaCreacion;
     }
 
-    private String seccion;
-    private Long telegramid;
-    private String response;
-    private Integer preguntaid;
-
-    public String getNombreid() {
-        return nombreid;
+    public void setFechaCreacion(Timestamp fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
-    public void setNombreid(String nombreid) {
-        this.nombreid = nombreid;
+    @Override
+    public String toString() {
+        return "Cuestionario{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", fechaCreacion=" + fechaCreacion +
+                '}';
     }
-
-    private String nombreid;
-
 }
+

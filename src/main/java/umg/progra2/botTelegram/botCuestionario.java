@@ -7,9 +7,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import umg.progra2.model.Cuestionario;
+import umg.progra2.model.Quest;
 import umg.progra2.model.User;
-import umg.progra2.service.CuestionarioService;
+import umg.progra2.service.QuestService;
 import umg.progra2.service.UserService;
 
 import java.sql.SQLException;
@@ -168,20 +168,20 @@ public class botCuestionario extends TelegramLongPollingBot {
     }
 
     private void enviarRespuesta(String seccion,Integer preguntaid, String response,Long telegramid,String nombreid) {
-        CuestionarioService cuestionarioService =new CuestionarioService();
-        Cuestionario cuestionario = new Cuestionario();
+        QuestService questService =new QuestService();
+        Quest quest = new Quest();
 
         // Crear un nuevo usuarioUseruser=newUser();
-        cuestionario.setSeccion(seccion);
-        cuestionario.setPreguntaid(preguntaid);
-        cuestionario.setResponse(response);
-        cuestionario.setTelegramid(telegramid);
-        cuestionario.setNombreid(nombreid);
+        quest.setSeccion(seccion);
+        quest.setPreguntaid(preguntaid);
+        quest.setResponse(response);
+        quest.setTelegramid(telegramid);
+        quest.setNombreid(nombreid);
 
 
         try {
-            cuestionarioService.crearUsuario(cuestionario);
-            System.out.println("User created successfully!");
+            questService.crearUsuario(quest);
+            System.out.println("Todo funca bien pa👍");
         } catch (SQLException e) {
             e.printStackTrace();
         }
